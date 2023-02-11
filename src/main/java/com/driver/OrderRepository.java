@@ -122,7 +122,7 @@ public class OrderRepository {
         return hourInString + ":" + minInString;
     }
 
-    public String deleteOrder(String orderId) {
+    public void deleteOrder(String orderId) {
         if(partnerOrderDetails.containsKey(orderId)){
             String partnerId = String.valueOf(partnerOrderDetails.get(orderId));
             HashSet<String> orders = partnerOrderDetails.get(partnerId);
@@ -137,10 +137,9 @@ public class OrderRepository {
         if(orderDetails.containsKey(orderId)){
             orderDetails.remove(orderId);
         }
-        return "";
     }
 
-    public String deletePartner(String partnerId) {
+    public void deletePartner(String partnerId) {
         HashSet<String> orders = new HashSet<>();
         if(partnerOrderDetails.containsKey(partnerId)){
             orders = partnerOrderDetails.get(partnerId);
@@ -156,7 +155,6 @@ public class OrderRepository {
         if(deliveryPartnerDetails.containsKey(partnerId)){
             deliveryPartnerDetails.remove(partnerId);
         }
-        return "";
     }
 
     public Integer getCountOfUnassignedOrders() {

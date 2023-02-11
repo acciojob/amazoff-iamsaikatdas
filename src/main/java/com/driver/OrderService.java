@@ -52,12 +52,12 @@ public class OrderService {
         return orderRepository.getLastDeliveryTimeByPartnerId(partnerId);
     }
 
-    public String deleteOrderById(String orderId) {
-        return orderRepository.deleteOrder(orderId);
+    public void deleteOrderById(String orderId) {
+        orderRepository.deleteOrder(orderId);
     }
 
-    public String deletePartnerById(String partnerId) {
-        return orderRepository.deletePartner(partnerId);
+    public void deletePartnerById(String partnerId) {
+        orderRepository.deletePartner(partnerId);
     }
 
     public Integer getCountOfUnassignedOrders() {
