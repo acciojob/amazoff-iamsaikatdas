@@ -122,7 +122,7 @@ public class OrderRepository {
         return hourInString + ":" + minInString;
     }
 
-    public void deleteOrder(String orderId) {
+    public void deleteOrderById(String orderId) {
         if(partnerOrderDetails.containsKey(orderId)){
             String partnerId = String.valueOf(partnerOrderDetails.get(orderId));
             HashSet<String> orders = partnerOrderDetails.get(partnerId);
@@ -139,7 +139,7 @@ public class OrderRepository {
         }
     }
 
-    public void deletePartner(String partnerId) {
+    public void deletePartnerById(String partnerId) {
         HashSet<String> orders = new HashSet<>();
         if(partnerOrderDetails.containsKey(partnerId)){
             orders = partnerOrderDetails.get(partnerId);

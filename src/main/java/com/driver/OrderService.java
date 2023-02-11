@@ -53,11 +53,11 @@ public class OrderService {
     }
 
     public void deleteOrderById(String orderId) {
-        orderRepository.deleteOrder(orderId);
+        orderRepository.deleteOrderById(orderId);
     }
 
     public void deletePartnerById(String partnerId) {
-        orderRepository.deletePartner(partnerId);
+        orderRepository.deletePartnerById(partnerId);
     }
 
     public int getCountOfUnassignedOrders() {
