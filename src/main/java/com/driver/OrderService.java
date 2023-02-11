@@ -16,16 +16,16 @@ public class OrderService {
         orderRepository.addOrder(order);
     }
 
-    public void addDeliveryPartner(String partnerId) {
-        orderRepository.addDeliveryPartner(partnerId);
+    public void addPartner(String partnerId) {
+        orderRepository.addPartner(partnerId);
     }
 
     public void addOrderPartnerPair(String orderId, String partnerId) {
-        orderRepository.addOrderPartner(orderId, partnerId);
+        orderRepository.addOrderPartnerPair(orderId, partnerId);
     }
 
     public Order getOrderById(String orderId) {
-        return orderRepository.getOrderByid(orderId);
+        return orderRepository.getOrderById(orderId);
     }
 
     public DeliveryPartner getPartnerById(String partnerId) {

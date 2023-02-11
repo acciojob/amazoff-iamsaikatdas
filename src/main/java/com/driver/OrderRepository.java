@@ -3,38 +3,38 @@ package com.driver;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 
 @Repository
 public class OrderRepository {
 
     private HashMap<String, Order> orderDetails;
     private HashMap<String, DeliveryPartner> deliveryPartnerDetails;
-    private HashMap<String, String> addOrderPartPair;
     private HashMap<String, HashSet<String>> partnerOrderDetails;
+
+    private Set<String> orderNotAssigned;
 
     public OrderRepository() {
         this.orderDetails = new HashMap<>();
         this.deliveryPartnerDetails = new HashMap<>();
-        this.addOrderPartPair = new HashMap<>();
+        this.orderNotAssigned = new HashSet<>();
         this.partnerOrderDetails = new HashMap<>();
     }
 
     public void addOrder(Order order){
         orderDetails.put(order.getId(), order);
+        orderNotAssigned.add(order.getId());
     }
 
-    public void addDeliveryPartner(String partnerId) {
+    public void addPartner(String partnerId) {
         deliveryPartnerDetails.put(partnerId, new DeliveryPartner(partnerId));
     }
 
-    public void addOrderPartner(String orderId, String partnerId) {
+    public void addOrderPartnerPair(String orderId, String partnerId) {
+
         if (orderDetails.containsKey(orderId) && deliveryPartnerDetails.containsKey(partnerId)){
 
-            HashSet<String> currentOrders = new HashSet<String>();
+            HashSet<String> currentOrders = new HashSet<>();
             if (partnerOrderDetails.containsKey(partnerId)){
                 currentOrders = partnerOrderDetails.get(partnerId);
             }
@@ -42,11 +42,10 @@ public class OrderRepository {
             partnerOrderDetails.put(partnerId, currentOrders);
             DeliveryPartner deliveryPartner = deliveryPartnerDetails.get(partnerId);
             deliveryPartner.setNumberOfOrders(currentOrders.size());
-            addOrderPartPair.put(orderId, partnerId);
         }
     }
 
-    public Order getOrderByid(String orderId) {
+    public Order getOrderById(String orderId) {
         return orderDetails.get(orderId);
     }
 
@@ -140,28 +139,19 @@ public class OrderRepository {
     }
 
     public void deletePartnerById(String partnerId) {
-        HashSet<String> orders = new HashSet<>();
-        if(partnerOrderDetails.containsKey(partnerId)){
-            orders = partnerOrderDetails.get(partnerId);
-            for(String order: orders){
-                if(addOrderPartPair.containsKey(order)){
-
-                    addOrderPartPair.remove(order);
-                }
-            }
-            partnerOrderDetails.remove(partnerId);
+        if(!partnerOrderDetails.isEmpty()){
+            orderNotAssigned.addAll(partnerOrderDetails.get(partnerId));
         }
+        partnerOrderDetails.remove(partnerId);
+        deliveryPartnerDetails.remove(partnerId);
 
-        if(deliveryPartnerDetails.containsKey(partnerId)){
-            deliveryPartnerDetails.remove(partnerId);
-        }
     }
 
     public int getCountOfUnassignedOrders() {
         int countOfOrders = 0;
         List<String> orders =  new ArrayList<>(orderDetails.keySet());
         for(String orderId: orders){
-            if(!addOrderPartPair.containsKey(orderId)){
+            if(!partnerOrderDetails.containsKey(orderId)){
                 countOfOrders += 1;
             }
         }
