@@ -140,7 +140,7 @@ public class OrderRepository {
         return "";
     }
 
-    public void deletePartner(String partnerId) {
+    public String deletePartner(String partnerId) {
         HashSet<String> orders = new HashSet<>();
         if(partnerOrderDetails.containsKey(partnerId)){
             orders = partnerOrderDetails.get(partnerId);
@@ -156,6 +156,7 @@ public class OrderRepository {
         if(deliveryPartnerDetails.containsKey(partnerId)){
             deliveryPartnerDetails.remove(partnerId);
         }
+        return "";
     }
 
     public Integer getCountOfUnassignedOrders() {
