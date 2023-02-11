@@ -74,12 +74,12 @@ public class OrderRepository {
         return new ArrayList<>(orderDetails.keySet());
     }
 
-    public Integer getOrdersLeftAfterGivenTimeByPartnerId(String time, String partnerId) {
-        Integer hour = Integer.valueOf(time.substring(0, 2));
-        Integer minutes = Integer.valueOf(time.substring(3));
-        Integer times = hour*60 + minutes;
+    public int getOrdersLeftAfterGivenTimeByPartnerId(String time, String partnerId) {
+        int hour = Integer.parseInt(time.substring(0, 2));
+        int minutes = Integer.parseInt(time.substring(3));
+        int times = hour*60 + minutes;
 
-        Integer countOfOrders = 0;
+        int countOfOrders = 0;
         if(partnerOrderDetails.containsKey(partnerId)){
             HashSet<String> orders = partnerOrderDetails.get(partnerId);
             for(String order: orders){
@@ -95,7 +95,7 @@ public class OrderRepository {
     }
 
     public String  getLastDeliveryTimeByPartnerId(String partnerId) {
-        Integer time = 0;
+        int time = 0;
 
         if(partnerOrderDetails.containsKey(partnerId)){
             HashSet<String> orders = partnerOrderDetails.get(partnerId);
@@ -107,8 +107,8 @@ public class OrderRepository {
             }
         }
 
-        Integer hour = time/60;
-        Integer minutes = time%60;
+        int hour = time/60;
+        int minutes = time%60;
 
         String hourInString = String.valueOf(hour);
         String minInString = String.valueOf(minutes);
@@ -157,8 +157,8 @@ public class OrderRepository {
         }
     }
 
-    public Integer getCountOfUnassignedOrders() {
-        Integer countOfOrders = 0;
+    public int getCountOfUnassignedOrders() {
+        int countOfOrders = 0;
         List<String> orders =  new ArrayList<>(orderDetails.keySet());
         for(String orderId: orders){
             if(!addOrderPartPair.containsKey(orderId)){
